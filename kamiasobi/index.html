@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>神様、あそびましょ。｜触れるMV</title>
+<meta name="description" content="指先で世界をめちゃくちゃにして遊ぶ、触れるMV。Mistoria feat. Uno「神様、あそびましょ。」">
+<meta property="og:title" content="神様、あそびましょ。｜触れるMV">
+<meta property="og:description" content="ちょんと触れたら花が咲く。なぞってみたら龍が舞う。神様と一緒に、指先で世界を創って遊ぶMV。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://loki-xx.github.io/mistoria-mv/kamiasobi/">
+<meta property="og:image" content="https://loki-xx.github.io/mistoria-mv/kamiasobi/ogp.jpg">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Mistoria 触れるMV">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://loki-xx.github.io/mistoria-mv/kamiasobi/ogp.jpg">
+<link rel="icon" href="icon.png"><link rel="apple-touch-icon" href="icon.png">
+<meta name="theme-color" content="#f6efe0">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Kaisei+Tokumin:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#f6efe0;--ink:#1c1238;--pink:#ff4fb3;--cyan:#35d6ff;--yel:#ffe14a;--pur:#8a5cff}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:#120b26;overscroll-behavior:none}
+body{font-family:"Kaisei Tokumin","Hiragino Mincho ProN",serif;color:var(--ink);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+#app{position:fixed;inset:0;margin:auto;width:min(100vw,62svh);height:100svh;overflow:hidden;background:var(--paper);container-type:size}
+#world{position:absolute;inset:0;transition:transform .9s cubic-bezier(.6,-.3,.3,1.3)}
+#world.flip{transform:rotate(180deg)}
+#zoom{position:absolute;inset:0;will-change:transform;box-shadow:0 0 0 5px var(--ink),14px 14px 0 5px var(--pink)}
+#world canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+/* 歌詞 */
+#lyrics{position:absolute;inset:0;pointer-events:none}
+.ly{position:absolute;writing-mode:vertical-rl;font-weight:800;font-size:min(10.4cqw,5.3cqh);line-height:1.22;letter-spacing:.04em;color:#fff;-webkit-text-stroke:.16em var(--ink);paint-order:stroke fill;text-shadow:.09em .09em 0 var(--pink);top:7cqh;transition:opacity .28s,transform .28s}
+.ly.R{right:5cqw}.ly.L{left:5cqw}
+.ly .col{display:block}.ly .col+.col{margin-top:1.5em}
+.ly .ch{display:inline-block;animation:pop .34s cubic-bezier(.2,1.6,.4,1) both}
+.ly.out{opacity:0;transform:translateY(-2cqh)}
+.ly.big{font-size:min(12.5cqw,6.3cqh);text-shadow:.09em .09em 0 var(--pur)}
+.ly.w{color:var(--ink);-webkit-text-stroke:0;text-shadow:none;font-weight:500;font-size:min(7.6cqw,4cqh);top:14cqh;letter-spacing:.2em}
+.ly.w .ch{animation:fadein 1s both}
+.ly.soft{color:#fff;-webkit-text-stroke:0;font-weight:500;font-size:min(7.8cqw,4.1cqh);text-shadow:0 0 .6em #9fb4ff,0 0 .15em #fff;letter-spacing:.16em;top:10cqh}
+.ly.soft .ch{animation:fadein 1.2s both}
+.ly.title{writing-mode:horizontal-tb;left:0;right:0;top:9cqh;text-align:center;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:13.5cqw;line-height:1.08;text-shadow:.07em .07em 0 var(--pink),.14em .14em 0 var(--cyan);transform:rotate(-4deg)}
+.ly.title .col+.col{margin-top:0}
+.ly.top{writing-mode:horizontal-tb;left:0;right:0;top:11cqh;text-align:center;font-size:min(10cqw,5.4cqh);line-height:1.28}
+.ly.top .col+.col{margin-top:0}
+.ly.shout{writing-mode:horizontal-tb;left:0;right:0;top:8cqh;text-align:center;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:17cqw;line-height:1.02;text-shadow:.07em .07em 0 var(--yel)}
+.ly.shout .col+.col{margin-top:0}
+.ly.shout .col:nth-child(1){transform:rotate(-6deg) translateX(-12cqw)}.ly.shout .col:nth-child(2){transform:rotate(5deg) translateX(13cqw)}.ly.shout .col:nth-child(3){font-size:.62em;margin-top:.3em}
+@keyframes pop{from{opacity:0;transform:scale(2.2) rotate(-14deg)}to{opacity:1;transform:none}}
+@keyframes fadein{from{opacity:0;filter:blur(6px)}to{opacity:1;filter:none}}
+/* 小さい案内・知らせ */
+#hint{position:absolute;left:0;right:0;bottom:calc(3.2cqh + env(safe-area-inset-bottom));text-align:center;pointer-events:none;opacity:0;transition:opacity .4s;z-index:3}
+#hint.on{opacity:1}
+#hint span{display:inline-block;background:var(--ink);color:#fff;font-size:min(3.9cqw,15px);font-weight:800;padding:.45em 1.1em;border-radius:99px;border:2px solid var(--yel);letter-spacing:.06em}
+#toast{position:absolute;left:0;right:0;top:29cqh;text-align:center;pointer-events:none;font-family:"Dela Gothic One",sans-serif;font-size:15cqw;color:var(--yel);-webkit-text-stroke:.14em var(--ink);paint-order:stroke fill;text-shadow:.06em .06em 0 var(--pink);opacity:0;z-index:3}
+#toast.on{animation:toast 1.9s both}
+@keyframes toast{0%{opacity:0;transform:scale(.3) rotate(-10deg)}12%{opacity:1;transform:scale(1.12) rotate(-5deg)}20%{transform:scale(1) rotate(-5deg)}80%{opacity:1}100%{opacity:0;transform:scale(1.05) rotate(-5deg) translateY(-3cqh)}}
+#count{position:absolute;left:0;right:0;top:27cqh;text-align:center;pointer-events:none;font-family:"Dela Gothic One",sans-serif;font-size:12cqw;color:#fff;-webkit-text-stroke:.14em var(--ink);paint-order:stroke fill;text-shadow:.06em .06em 0 var(--pink);opacity:0;z-index:2}
+#bar{position:absolute;left:0;top:0;height:4px;width:100%;background:var(--yel);transform-origin:0 50%;transform:scaleX(0);z-index:4;box-shadow:0 1px 0 var(--ink)}
+.ui{position:absolute;z-index:6;font:800 13px "Kaisei Tokumin",serif;color:var(--ink);background:rgba(246,239,224,.86);border:2px solid var(--ink);border-radius:99px;min-height:40px;padding:0 14px;cursor:pointer}
+#mute{top:calc(12px + env(safe-area-inset-top));right:12px}
+.ui:focus-visible,.btn:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
+/* はじまり・一時停止・おわり */
+.ov{position:absolute;inset:0;z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6cqh 7cqw}
+#start{background:var(--paper) radial-gradient(circle at 50% 108%,#ffd3ea 0,#ffd3ea 26%,transparent 26.3%)}
+#start h1{writing-mode:vertical-rl;font-family:"Dela Gothic One",sans-serif;font-weight:400;font-size:min(13cqw,7cqh);line-height:1.15;color:var(--ink);text-shadow:.07em .07em 0 var(--pink);height:44cqh;text-align:start}
+#start .sub{margin-top:2.2cqh;font-size:min(3.9cqw,15px);font-weight:800;letter-spacing:.12em}
+#start .how{margin-top:1.2cqh;font-size:min(3.4cqw,13px);line-height:1.8;opacity:.8}
+.btn{font:400 min(6.4cqw,26px)/1 "Dela Gothic One",sans-serif;color:#fff;background:var(--pink);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);border-radius:14px;min-height:62px;padding:0 1.5em;cursor:pointer;margin-top:3cqh}
+.btn:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.btn[disabled]{background:#c9bfae;box-shadow:none;cursor:default}
+.btn.sub2{font-size:min(4.2cqw,16px);min-height:46px;background:#fff;color:var(--ink);box-shadow:3px 3px 0 var(--ink);margin-top:1.4cqh;font-family:"Kaisei Tokumin",serif;font-weight:800}
+#peek0{position:absolute;bottom:0;left:50%;width:min(56cqw,25cqh);transform:translateX(-50%);pointer-events:none;z-index:-1}
+#start{justify-content:flex-start;padding-top:calc(6cqh + env(safe-area-inset-top));isolation:isolate}
+#pause{background:rgba(18,11,38,.72);color:#fff;display:none}
+#pause p{font:400 9cqw "Dela Gothic One",sans-serif}
+#end{background:rgba(18,11,38,.8);color:#fff;display:none;justify-content:flex-start;padding-top:calc(5cqh + env(safe-area-inset-top));overflow:auto}
+#end.on{display:flex;animation:fadein .8s both}
+#end h2{font:400 min(7.6cqw,30px) "Dela Gothic One",sans-serif;color:var(--yel)}
+#end .rank{margin-top:.5cqh;font-size:min(4.4cqw,17px);font-weight:800}
+#card{margin-top:2cqh;height:46cqh;aspect-ratio:9/16;border:4px solid #fff;box-shadow:6px 6px 0 var(--pink);background:#333;object-fit:cover;transform:rotate(-2deg)}
+#stats{margin-top:2cqh;font-size:min(3.8cqw,15px);font-weight:800;line-height:1.7}
+#titles{margin-top:.6cqh;font-size:min(3.3cqw,13px);color:var(--yel);font-weight:800}
+#end .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+#end{touch-action:pan-y}
+#card{-webkit-touch-callout:default;-webkit-user-select:auto;user-select:auto}
+#savehow{margin-top:1.2cqh;font-size:min(3.5cqw,14px);font-weight:800;color:var(--yel);display:none}
+#savehow.on{display:block}
+@media(prefers-reduced-motion:reduce){#world{transition:none}.ly .ch{animation:fadein .3s both}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="world"><div id="zoom"><canvas id="bg"></canvas><canvas id="fx"></canvas></div></div>
+  <div id="lyrics" aria-live="off"></div>
+  <div id="count"></div><div id="toast"></div>
+  <div id="hint"><span></span></div>
+  <div id="bar"></div>
+  <button class="ui" id="mute" aria-pressed="false">音を消す</button>
+
+  <div class="ov" id="start">
+    <h1>神様、<br>あそびましょ。</h1>
+    <p class="sub">触れるMV　／　Mistoria feat. Uno</p>
+    <p class="how">音が出ます。画面をさわると世界が変わります。<br>タップ・なぞる・長押し、なんでもどうぞ。</p>
+    <button class="btn" id="go" disabled>読み込み中…</button>
+    <img id="peek0" src="chars/c2.webp" alt="">
+  </div>
+  <div class="ov" id="pause"><p>タップで<br>つづき</p></div>
+  <div class="ov" id="end">
+    <h2>きみと創った世界</h2>
+    <p class="rank" id="rank"></p>
+    <img id="card" alt="できあがった世界の絵">
+    <p id="stats"></p>
+    <p id="titles"></p>
+    <button class="btn" id="again">……もう一回。</button>
+    <div class="row"><button class="btn sub2" id="save">絵を保存</button><button class="btn sub2" id="share">シェア</button></div>
+    <p id="savehow"></p>
+  </div>
+</div>
+<script src="js/stems.js"></script>
+<script src="js/song.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
