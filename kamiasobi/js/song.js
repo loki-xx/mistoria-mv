@@ -1,7 +1,7 @@
 /* 曲ごとのデータ：「神様、あそびましょ。」
    時刻は秒。歌詞の "|" は改行（縦書きの列の区切り）。 */
 const SONG={
-  title:'神様、あそびましょ。',credit:'Mistoria feat. Uno',
+  title:'神様、あそびましょ。',credit:'Mistoria feat. Uno',tags:'#神様あそびましょ #Mistoria #触れるMV',
   bpm:182.04,phase:0.51,key:[55,58,60,62,65,67,70,72,74,77], // ト短調の五音
   // 長押しは「全体がこもる」方式（完成音源1本）。歌を残して伴奏だけこもらせたいときは stems:['vocal','inst'] に戻す
   audio:{dir:'audio/',stems:[],full:'full',stemGain:1.2},

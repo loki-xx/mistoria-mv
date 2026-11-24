@@ -486,8 +486,11 @@ $('save').onclick=async()=>{if(!cardBlob)return;const touch=matchMedia('(pointer
   if(touch){try{const f=new File([cardBlob],'kamiasobi.jpg',{type:'image/jpeg'});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f]});return}}catch(e){if(e&&e.name==='AbortError')return}
     $('savehow').textContent='絵を長押し →「写真に保存」で保存できます';$('savehow').classList.add('on');return}
   const a=document.createElement('a');a.href=URL.createObjectURL(cardBlob);a.download='kamiasobi.jpg';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000)};
-$('share').onclick=async()=>{const text=`「${S.title}」で世界を創りました（${rank()}）`,url=location.href.split('?')[0];
-  try{const f=cardBlob&&new File([cardBlob],'kamiasobi.jpg',{type:'image/jpeg'});if(f&&navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({text,url,files:[f]});else if(navigator.share)await navigator.share({text,url});else{await navigator.clipboard.writeText(text+' '+url);toast('コピーした')}}catch(e){}};
+// シェア文：曲名・称号・お誘い・アドレス。アドレスも文の中に入れる（アプリによっては文かアドレスの片方しか残らないため）
+function shareText(){const url=location.href.split('?')[0].split('#')[0];
+  return `触れるMV「${S.title}」（${S.credit}）で遊んだら、称号【${rank()}】をもらいました！\nみんなも指先で世界を創ってみて\n${url}\n${S.tags||''}`.trim()}
+$('share').onclick=async()=>{const text=shareText();
+  try{const f=cardBlob&&new File([cardBlob],'kamiasobi.jpg',{type:'image/jpeg'});if(f&&navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({text,files:[f]});else if(navigator.share)await navigator.share({text});else{await navigator.clipboard.writeText(text);toast('コピーした')}}catch(e){}};
 $('again').onclick=()=>{$('end').classList.remove('on');st.lap++;begin(0)};
 
 /* ---------- はじまり・一時停止・大きさ ---------- */
@@ -513,5 +516,5 @@ document.addEventListener('visibilitychange',()=>{if(!running||ended)return;if(d
 $('pause').addEventListener('click',async()=>{await P.resume();$('pause').style.display='none';lastNow=performance.now()});
 app.addEventListener('pointerdown',e=>{const[x,y]=pos(e);lastPt=[x,y]},true);
 requestAnimationFrame(frame);
-window.__mv={P,st,V,seek:t=>{$('end').classList.remove('on');begin(t)},get t(){return songT}}; // 確認用
+window.__mv={P,st,V,shareText,seek:t=>{$('end').classList.remove('on');begin(t)},get t(){return songT}}; // 確認用
 })();
